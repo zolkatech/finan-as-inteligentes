@@ -12,7 +12,7 @@ interface SummaryCardProps {
 
 const SummaryCard = ({ title, value, change, icon, iconBg }: SummaryCardProps) => {
   const isPositive = change >= 0;
-  
+
   return (
     <Card className="shadow-sm border-0 hover:shadow-md transition-shadow">
       <CardContent className="p-6">
@@ -54,8 +54,8 @@ const SummaryCards = () => {
         title="Total de Despesas"
         value={summaryData.totalExpenses}
         change={summaryData.expenseChange}
-        icon={<TrendingDown className="h-6 w-6 text-primary" />}
-        iconBg="bg-primary/10"
+        icon={<TrendingDown className="h-6 w-6 text-[hsl(11,70%,62%)]" />}
+        iconBg="bg-[hsl(11,70%,62%)]/10"
       />
       <SummaryCard
         title="Saldo Atual"

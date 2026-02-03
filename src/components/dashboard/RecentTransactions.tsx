@@ -25,30 +25,30 @@ const RecentTransactions = () => {
         {recentTransactions.map((transaction) => {
           const IconComponent = iconMap[transaction.icon] || Wallet;
           const isIncome = transaction.type === 'income';
-          
+
           return (
             <div
               key={transaction.id}
               className="flex items-center gap-4 p-3 bg-secondary/50 rounded-xl hover:bg-secondary transition-colors"
             >
-              <div className={`p-2.5 rounded-xl ${isIncome ? 'bg-success/10' : 'bg-primary/10'}`}>
-                <IconComponent className={`h-5 w-5 ${isIncome ? 'text-success' : 'text-primary'}`} />
+              <div className={`p-2.5 rounded-xl ${isIncome ? 'bg-success/10' : 'bg-[hsl(11,70%,62%)]/10'}`}>
+                <IconComponent className={`h-5 w-5 ${isIncome ? 'text-success' : 'text-[hsl(11,70%,62%)]'}`} />
               </div>
-              
+
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-foreground truncate">{transaction.description}</p>
                 <p className="text-sm text-muted-foreground">
-                  {new Date(transaction.date).toLocaleDateString('pt-BR', { 
-                    day: '2-digit', 
-                    month: 'short' 
+                  {new Date(transaction.date).toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: 'short'
                   })}
                 </p>
               </div>
-              
-              <p className={`font-semibold ${isIncome ? 'text-success' : 'text-primary'}`}>
-                {isIncome ? '+' : '-'} {transaction.amount.toLocaleString('pt-BR', { 
-                  style: 'currency', 
-                  currency: 'BRL' 
+
+              <p className={`font-semibold ${isIncome ? 'text-success' : 'text-[hsl(11,70%,62%)]'}`}>
+                {isIncome ? '+' : '-'} {transaction.amount.toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL'
                 })}
               </p>
             </div>

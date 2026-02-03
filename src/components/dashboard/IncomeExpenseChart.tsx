@@ -28,34 +28,34 @@ const IncomeExpenseChart = () => {
         <ResponsiveContainer width="100%" height={280}>
           <BarChart data={monthlyData} barGap={8}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
-            <XAxis 
-              dataKey="month" 
-              axisLine={false} 
+            <XAxis
+              dataKey="month"
+              axisLine={false}
               tickLine={false}
               tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
             />
-            <YAxis 
-              axisLine={false} 
+            <YAxis
+              axisLine={false}
               tickLine={false}
               tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
               tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Legend 
+            <Legend
               formatter={(value) => <span className="text-sm text-foreground">{value}</span>}
             />
-            <Bar 
-              dataKey="income" 
-              name="Receitas" 
-              fill="hsl(var(--chart-income))" 
-              radius={[6, 6, 0, 0]} 
+            <Bar
+              dataKey="income"
+              name="Receitas"
+              fill="hsl(var(--chart-income))"
+              radius={[6, 6, 0, 0]}
               maxBarSize={40}
             />
-            <Bar 
-              dataKey="expenses" 
-              name="Despesas" 
-              fill="hsl(var(--chart-expense))" 
-              radius={[6, 6, 0, 0]} 
+            <Bar
+              dataKey="expenses"
+              name="Despesas"
+              fill="hsl(var(--chart-expense))"
+              radius={[6, 6, 0, 0]}
               maxBarSize={40}
             />
           </BarChart>

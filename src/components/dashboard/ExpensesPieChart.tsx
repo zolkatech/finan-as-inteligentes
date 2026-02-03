@@ -44,9 +44,9 @@ const ExpensesPieChart = () => {
               ))}
             </Pie>
             <Tooltip content={<CustomTooltip />} />
-            <Legend 
-              layout="horizontal" 
-              verticalAlign="bottom" 
+            <Legend
+              layout="horizontal"
+              verticalAlign="bottom"
               align="center"
               formatter={(value) => <span className="text-sm text-foreground">{value}</span>}
             />

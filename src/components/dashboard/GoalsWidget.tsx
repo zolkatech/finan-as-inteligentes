@@ -19,7 +19,7 @@ const GoalsWidget = () => {
         {goals.map((goal) => {
           const IconComponent = iconMap[goal.icon] || Shield;
           const percentage = Math.round((goal.current / goal.target) * 100);
-          
+
           return (
             <div key={goal.id} className="p-4 bg-secondary/50 rounded-xl">
               <div className="flex items-center gap-3 mb-3">
@@ -32,9 +32,9 @@ const GoalsWidget = () => {
                 </div>
                 <span className="text-sm font-semibold text-primary">{percentage}%</span>
               </div>
-              
+
               <Progress value={percentage} className="h-2 mb-2" />
-              
+
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">
                   {goal.current.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
