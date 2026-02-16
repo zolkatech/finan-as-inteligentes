@@ -32,36 +32,37 @@ export interface Goal {
 }
 
 export const categories = [
-  { id: 'alimentacao', name: 'Alimentação', icon: 'UtensilsCrossed', color: 'hsl(11, 70%, 62%)' },
+  { id: 'alimentacao', name: 'Alimentação', icon: 'UtensilsCrossed', color: 'hsl(0, 84%, 60%)' },
   { id: 'transporte', name: 'Transporte', icon: 'Car', color: 'hsl(199, 89%, 48%)' },
   { id: 'lazer', name: 'Lazer', icon: 'Gamepad2', color: 'hsl(262, 83%, 58%)' },
   { id: 'saude', name: 'Saúde', icon: 'Heart', color: 'hsl(340, 82%, 52%)' },
   { id: 'educacao', name: 'Educação', icon: 'GraduationCap', color: 'hsl(47, 96%, 53%)' },
   { id: 'moradia', name: 'Moradia', icon: 'Home', color: 'hsl(142, 76%, 36%)' },
   { id: 'compras', name: 'Compras', icon: 'ShoppingBag', color: 'hsl(280, 87%, 65%)' },
-  { id: 'salario', name: 'Salário', icon: 'Wallet', color: 'hsl(142, 76%, 36%)' },
+  { id: 'renda', name: 'Renda', icon: 'Wallet', color: 'hsl(142, 76%, 36%)' },
 ];
 
 export const transactions: Transaction[] = [
-  { id: '1', description: 'Supermercado Extra', amount: 342.50, type: 'expense', category: 'alimentacao', date: '2024-01-28', icon: 'UtensilsCrossed' },
-  { id: '2', description: 'Salário Janeiro', amount: 8500.00, type: 'income', category: 'salario', date: '2024-01-25', icon: 'Wallet' },
-  { id: '3', description: 'Uber', amount: 45.90, type: 'expense', category: 'transporte', date: '2024-01-27', icon: 'Car' },
-  { id: '4', description: 'Netflix', amount: 55.90, type: 'expense', category: 'lazer', date: '2024-01-20', icon: 'Gamepad2' },
-  { id: '5', description: 'Farmácia', amount: 89.00, type: 'expense', category: 'saude', date: '2024-01-22', icon: 'Heart' },
-  { id: '6', description: 'Curso Udemy', amount: 27.90, type: 'expense', category: 'educacao', date: '2024-01-18', icon: 'GraduationCap' },
-  { id: '7', description: 'Aluguel', amount: 1800.00, type: 'expense', category: 'moradia', date: '2024-01-10', icon: 'Home' },
-  { id: '8', description: 'Freelance Design', amount: 1200.00, type: 'income', category: 'salario', date: '2024-01-15', icon: 'Wallet' },
-  { id: '9', description: 'Zara', amount: 299.90, type: 'expense', category: 'compras', date: '2024-01-24', icon: 'ShoppingBag' },
-  { id: '10', description: 'iFood', amount: 68.50, type: 'expense', category: 'alimentacao', date: '2024-01-26', icon: 'UtensilsCrossed' },
+  { id: '1', description: 'Supermercado Extra', amount: 342.50, type: 'expense', category: 'Alimentação', date: '2024-01-28T14:30:00', icon: 'UtensilsCrossed' },
+  { id: '2', description: 'Salário Janeiro', amount: 8500.00, type: 'income', category: 'Renda', date: '2024-01-25T09:00:00', icon: 'Wallet' },
+  { id: '3', description: 'Uber', amount: 45.90, type: 'expense', category: 'Transporte', date: '2024-01-27T18:45:00', icon: 'Car' },
+  { id: '4', description: 'Netflix', amount: 55.90, type: 'expense', category: 'Lazer', date: '2024-01-20T20:00:00', icon: 'Gamepad2' },
+  { id: '5', description: 'Farmácia', amount: 89.00, type: 'expense', category: 'Saúde', date: '2024-01-22T11:15:00', icon: 'Heart' },
+  { id: '6', description: 'Curso Udemy', amount: 27.90, type: 'expense', category: 'Educação', date: '2024-01-18T15:00:00', icon: 'GraduationCap' },
+  { id: '7', description: 'Aluguel', amount: 1800.00, type: 'expense', category: 'Moradia', date: '2024-01-10T08:00:00', icon: 'Home' },
+  { id: '8', description: 'Freelance Design', amount: 1200.00, type: 'income', category: 'Renda', date: '2024-01-15T10:30:00', icon: 'Wallet' },
+  { id: '9', description: 'Zara', amount: 299.90, type: 'expense', category: 'Compras', date: '2024-01-24T16:20:00', icon: 'ShoppingBag' },
+  { id: '10', description: 'iFood', amount: 68.50, type: 'expense', category: 'Alimentação', date: '2024-01-26T19:40:00', icon: 'UtensilsCrossed' },
 ];
 
 export const categoryExpenses: CategoryData[] = [
-  { name: 'Alimentação', value: 1250, color: 'hsl(11, 70%, 62%)', icon: 'UtensilsCrossed' },
+  { name: 'Alimentação', value: 1250, color: 'hsl(0, 84%, 60%)', icon: 'UtensilsCrossed' },
   { name: 'Transporte', value: 580, color: 'hsl(199, 89%, 48%)', icon: 'Car' },
   { name: 'Lazer', value: 420, color: 'hsl(262, 83%, 58%)', icon: 'Gamepad2' },
   { name: 'Moradia', value: 1800, color: 'hsl(142, 76%, 36%)', icon: 'Home' },
   { name: 'Saúde', value: 320, color: 'hsl(340, 82%, 52%)', icon: 'Heart' },
   { name: 'Compras', value: 650, color: 'hsl(280, 87%, 65%)', icon: 'ShoppingBag' },
+  { name: 'Renda', value: 9700, color: 'hsl(142, 76%, 36%)', icon: 'Wallet' },
 ];
 
 export const monthlyData: MonthlyData[] = [

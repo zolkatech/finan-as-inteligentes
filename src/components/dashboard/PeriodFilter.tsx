@@ -38,7 +38,7 @@ const PeriodFilter = ({ period, onPeriodChange, category, onCategoryChange }: Pe
           <SelectContent>
             <SelectItem value="all">Todas as categorias</SelectItem>
             {categories.map((cat) => (
-              <SelectItem key={cat.id} value={cat.id}>
+              <SelectItem key={cat.id} value={cat.name}>
                 {cat.name}
               </SelectItem>
             ))}

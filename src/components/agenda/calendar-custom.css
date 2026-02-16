@@ -1,0 +1,101 @@
+/* Custom styles to override react-big-calendar defaults for a modern look */
+
+.rbc-calendar {
+    font-family: inherit;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    /* Reduced font size */
+}
+
+.rbc-header {
+    padding: 8px 4px;
+    font-weight: 500;
+    font-size: 0.7rem;
+    /* Even smaller */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted-foreground);
+    border: 0 !important;
+    /* Remove ALL borders around headers */
+    opacity: 0.6;
+    /* Make it more transparent */
+}
+
+.rbc-header+.rbc-header {
+    border-left: 0 !important;
+    /* Ensure no vertical separators */
+}
+
+.rbc-month-view,
+.rbc-time-view,
+.rbc-agenda-view {
+    border: 1px solid transparent !important;
+    /* Transparent outer border */
+    border-radius: var(--radius);
+    background-color: var(--card);
+}
+
+.rbc-month-row+.rbc-month-row {
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+    /* Very subtle row separator */
+}
+
+.rbc-day-bg+.rbc-day-bg {
+    border-left: 0 !important;
+    /* Remove vertical day separators */
+}
+
+.rbc-off-range-bg {
+    background-color: transparent !important;
+    /* Transparent off-range */
+    opacity: 0.3;
+}
+
+.rbc-today {
+    background-color: hsl(var(--primary) / 0.05) !important;
+    /* Very subtle today highlight */
+}
+
+.rbc-date-cell {
+    padding: 2px 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.rbc-event {
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    box-shadow: none;
+    border: 0 !important;
+}
+
+/* Hide Time Grid Borders as well if used */
+.rbc-time-content {
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.rbc-time-view-resources .rbc-time-gutter,
+.rbc-time-view-resources .rbc-time-header-gutter {
+    border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.rbc-timeslot-group {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.rbc-day-slot .rbc-time-slot {
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Scrollbar tweaks */
+.rbc-time-content::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.rbc-time-content::-webkit-scrollbar-thumb {
+    background-color: var(--muted);
+    border-radius: 3px;
+}

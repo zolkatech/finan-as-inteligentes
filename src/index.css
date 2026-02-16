@@ -42,8 +42,8 @@ All colors MUST be HSL.
     --radius: 1rem;
 
     --chart-income: 142 76% 36%;
-    --chart-expense: 11 70% 62%;
-    --chart-1: 11 70% 62%;
+    --chart-expense: 0 84% 60%;
+    --chart-1: 0 84% 60%;
     --chart-2: 199 89% 48%;
     --chart-3: 262 83% 58%;
     --chart-4: 47 96% 53%;
@@ -62,26 +62,26 @@ All colors MUST be HSL.
   /* Force higher specificity for dark mode */
   html.dark .dark,
   .dark {
-    --background: 220 20% 10%;
-    --foreground: 220 20% 97%;
+    --background: 240 4% 10%;
+    --foreground: 0 0% 98%;
 
-    --card: 220 20% 14%;
-    --card-foreground: 220 20% 97%;
+    --card: 240 4% 12%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 220 20% 14%;
-    --popover-foreground: 220 20% 97%;
+    --popover: 240 4% 12%;
+    --popover-foreground: 0 0% 98%;
 
     --primary: 45 93% 47%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 15% 20%;
-    --secondary-foreground: 220 20% 97%;
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 220 15% 20%;
-    --muted-foreground: 220 10% 60%;
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 65%;
 
-    --accent: 45 93% 47%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 240 4% 16%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
@@ -89,25 +89,25 @@ All colors MUST be HSL.
     --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
 
-    --border: 220 15% 20%;
-    --input: 220 15% 20%;
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
     --ring: 45 93% 47%;
 
     --chart-income: 142 76% 36%;
-    --chart-expense: 11 70% 62%;
-    --chart-1: 11 70% 62%;
+    --chart-expense: 0 84% 60%;
+    --chart-1: 0 84% 60%;
     --chart-2: 199 89% 48%;
     --chart-3: 262 83% 58%;
     --chart-4: 47 96% 53%;
     --chart-5: 142 76% 36%;
 
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-background: 240 4% 10%;
+    --sidebar-foreground: 240 5% 96%;
     --sidebar-primary: 45 93% 47%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-accent: 240 4% 16%;
+    --sidebar-accent-foreground: 240 5% 96%;
+    --sidebar-border: 240 4% 16%;
     --sidebar-ring: 45 93% 47%;
   }
 }
