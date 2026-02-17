@@ -13,6 +13,8 @@ serve(async (req) => {
     }
 
     try {
+        console.log("Starting admin-create-user function");
+
         const supabaseClient = createClient(
             Deno.env.get('SUPABASE_URL') ?? '',
             Deno.env.get('SUPABASE_ANON_KEY') ?? '',
@@ -24,8 +26,11 @@ serve(async (req) => {
         } = await supabaseClient.auth.getUser()
 
         if (!user) {
+            console.error("User not found or unauthorized");
             return new Response("Unauthorized", { status: 401, headers: corsHeaders })
         }
+
+        console.log("Request user:", user.id);
 
         const { data: profile } = await supabaseClient
             .from('profiles')
@@ -34,10 +39,13 @@ serve(async (req) => {
             .single()
 
         if (profile?.role !== 'admin') {
+            console.error("User is not admin:", profile?.role);
             return new Response("Forbidden: Admin access required", { status: 403, headers: corsHeaders })
         }
 
-        const { email, password, fullName, role } = await req.json()
+        const body = await req.json();
+        const { email, password, fullName, phone, role } = body;
+        console.log("Creating user:", { email, fullName, phone, role });
 
         const supabaseAdmin = createClient(
             Deno.env.get('SUPABASE_URL') ?? '',
@@ -48,14 +56,15 @@ serve(async (req) => {
             email,
             password,
             email_confirm: true,
-            user_metadata: { full_name: fullName }
+            user_metadata: { full_name: fullName, phone: phone }
         })
 
         if (createError) throw createError
 
         if (newUser.user) {
-            const updates = { must_change_password: true };
+            const updates: any = { must_change_password: true };
             if (role) updates.role = role;
+            if (phone) updates.phone = phone;
 
             await supabaseAdmin
                 .from('profiles')
@@ -69,7 +78,8 @@ serve(async (req) => {
         })
 
     } catch (error) {
-        return new Response(JSON.stringify({ error: error.message }), {
+        console.error("Admin Create User Error:", error);
+        return new Response(JSON.stringify({ error: error.message, details: error }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 400,
         })

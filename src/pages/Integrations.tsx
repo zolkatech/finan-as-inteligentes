@@ -4,96 +4,62 @@ import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import { toast } from "sonner";
+import { useGoogleConnection } from "@/hooks/useGoogleConnection";
 
 const Integrations = () => {
-    const [isConnected, setIsConnected] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const { isConnected, loading, checkConnection } = useGoogleConnection();
 
     useEffect(() => {
-        checkConnection();
-    }, []);
-
-    const checkConnection = async () => {
-        const { data: { session } } = await supabase.auth.getSession();
-
-        // Check if we have a provider token in the session (active login)
-        if (session?.provider_token) {
-            setIsConnected(true);
-
-            // Try to save tokens to backend
-            // We do this if we haven't checked before or just to ensure sync.
-            // Ideally we check if we already saved it to avoid spamming the API? 
-            // For now, let's just do it and rely on the UI feedback.
-
-            console.log("Session Tokens:", {
-                access: !!session.provider_token,
-                refresh: !!session.provider_refresh_token
-            });
-
-            if (session.provider_token) {
-                try {
-                    // Toast for debugging/feedback
-                    if (session.provider_refresh_token) {
-                        toast.info("Refresh Token detectado! Salvando...");
-                    } else {
-                        toast.warning("Refresh Token não detectado. A conexão pode expirar.");
-                    }
-
-                    const { error } = await supabase.functions.invoke('google-calendar', {
-                        body: {
-                            action: 'save_token',
-                            user_id: session.user.id,
-                            access_token: session.provider_token,
-                            refresh_token: session.provider_refresh_token || null,
-                            expires_in: session.expires_in
-                        }
-                    });
-
-                    if (error) throw error;
-                    console.log("Tokens saved successfully.");
-                    if (session.provider_refresh_token) toast.success("Conexão persistente salva com sucesso!");
-
-                } catch (err) {
-                    console.error("Failed to save tokens persistence:", err);
-                    toast.error("Falha ao salvar conexão persistente.");
-                }
-            }
-        } else {
-            // ... existing fallback code ...
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user) {
-                const { data, error } = await supabase
-                    .from('google_integrations')
-                    .select('id')
-                    .eq('user_id', user.id)
-                    .single();
-
-                if (data && !error) {
-                    setIsConnected(true);
-                }
-            }
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('calendar_connected') === 'true') {
+            toast.success("Google Calendar conectado com sucesso!");
+            // Remove param from URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+            checkConnection();
         }
-
-        setLoading(false);
-    };
+    }, [checkConnection]);
 
     const handleGoogleConnect = async () => {
         try {
-            const { error } = await supabase.auth.signInWithOAuth({
-                provider: 'google',
-                options: {
-                    queryParams: {
-                        access_type: 'offline',
-                        prompt: 'consent',
-                    },
-                    scopes: 'https://www.googleapis.com/auth/calendar',
-                    redirectTo: window.location.origin + '/integrations',
-                },
-            });
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                toast.error("Você precisa estar logado para conectar o Google Calendar.");
+                return;
+            }
 
-            if (error) throw error;
+            // Configuration - You should move these to env vars
+            const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "YOUR_GOOGLE_CLIENT_ID"; // Replace with your actual Client ID if not in env
+            const REDIRECT_URI = "https://qybsmqjpmzlbxxstcqic.supabase.co/functions/v1/google-calendar"; // Your Edge Function URL
+
+            // Validate configuration
+            if (CLIENT_ID === "YOUR_GOOGLE_CLIENT_ID") {
+                toast.error("Configuração de Client ID ausente. Verifique o console.");
+                console.error("Missing VITE_GOOGLE_CLIENT_ID in .env");
+                return;
+            }
+
+            const stateStr = JSON.stringify({
+                userId: user.id,
+                redirectTo: window.location.origin + '/integrations'
+            });
+            const state = btoa(stateStr); // Encode state to Base64
+
+            const scope = "https://www.googleapis.com/auth/calendar";
+
+            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
+                `client_id=${CLIENT_ID}&` +
+                `redirect_uri=${encodeURIComponent(REDIRECT_URI)}&` +
+                `response_type=code&` +
+                `scope=${encodeURIComponent(scope)}&` +
+                `access_type=offline&` +
+                `prompt=consent&` +
+                `state=${state}`;
+
+            window.location.href = authUrl;
+
         } catch (error: any) {
             console.error("Google Auth Error:", error);
+            toast.error("Erro ao iniciar conexão com Google.");
         }
     };
 

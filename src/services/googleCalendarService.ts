@@ -7,21 +7,51 @@ export const googleCalendarService = {
      * Note: This requires the user to be logged in with Google.
      */
     async getAccessToken() {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session || !session.provider_token) {
-            // Tenta recuperar do storage local se não estiver na sessão explícita (pode acontecer em refresh)
-            // Mas o ideal é que o login tenha sido feito com escopos corretos.
+        console.log("googleCalendarService: Getting access token...");
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            console.error("googleCalendarService: No user found.");
             return null;
         }
-        return session.provider_token;
+
+        try {
+            console.log("googleCalendarService: Invoking Edge Function for user:", user.id);
+            const { data, error } = await supabase.functions.invoke('google-calendar', {
+                body: {
+                    action: 'get_token',
+                    user_id: user.id
+                }
+            });
+
+            if (error) {
+                console.error("googleCalendarService: Edge Function Error:", error);
+                return null;
+            }
+
+            if (!data?.access_token) {
+                console.warn("googleCalendarService: No access_token returned from Edge Function.", data);
+                return null;
+            }
+
+            console.log("googleCalendarService: Token retrieved successfully.");
+            return data.access_token;
+        } catch (err) {
+            console.error("Error invoking google-calendar function:", err);
+            return null;
+        }
     },
 
     /**
      * Lists events from the primary calendar.
      */
     async listEvents() {
+        console.log("googleCalendarService: listEvents called.");
         const token = await this.getAccessToken();
-        if (!token) throw new Error("Google Access Token not found. Please log in with Google.");
+        if (!token) {
+            console.error("googleCalendarService: No token available. Aborting listEvents.");
+            // throw new Error("Google Access Token not found. Please log in with Google.");
+            return []; // Return empty array instead of throwing to avoid crashing UI if just not connected
+        }
 
         const now = new Date();
         const minDate = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString(); // 1 month ago
@@ -34,6 +64,7 @@ export const googleCalendarService = {
             maxResults: '250',
         });
 
+        console.log("googleCalendarService: Fetching from Google API...");
         const response = await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?${params}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -41,10 +72,13 @@ export const googleCalendarService = {
         });
 
         if (!response.ok) {
-            throw new Error(`Google Calendar API Error: ${response.statusText}`);
+            console.error(`googleCalendarService: Google API Error: ${response.status} ${response.statusText}`);
+            // throw new Error(`Google Calendar API Error: ${response.statusText}`);
+            return [];
         }
 
         const data = await response.json();
+        console.log(`googleCalendarService: Fetched ${data.items?.length} events.`);
         return data.items || [];
     },
 

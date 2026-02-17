@@ -21,6 +21,7 @@ const AdminDashboard = () => {
     const [formData, setFormData] = useState({
         fullName: "",
         email: "",
+        phone: "",
         password: "",
         role: "user",
     });
@@ -55,7 +56,7 @@ const AdminDashboard = () => {
                 description: `Usuário ${formData.fullName} criado com sucesso.`,
             });
 
-            setFormData({ fullName: "", email: "", password: "", role: "user" });
+            setFormData({ fullName: "", email: "", phone: "", password: "", role: "user" });
         } catch (error: any) {
             toast({
                 title: "Erro",
@@ -113,6 +114,18 @@ const AdminDashboard = () => {
                                     value={formData.email}
                                     onChange={handleChange}
                                     required
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="phone">Telefone / Celular</Label>
+                                <Input
+                                    id="phone"
+                                    name="phone"
+                                    type="tel"
+                                    placeholder="Ex: (11) 99999-9999"
+                                    value={formData.phone}
+                                    onChange={handleChange}
                                 />
                             </div>
 

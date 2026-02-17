@@ -39,7 +39,10 @@ export function useEvents() {
 
             // 2. Fetch Google Calendar Events (if connected)
             try {
+                console.log("useEvents: Attempting to fetch Google Events...");
                 const googleEventsData = await googleCalendarService.listEvents();
+                console.log("useEvents: Google Events Data:", googleEventsData);
+
                 if (googleEventsData && googleEventsData.length > 0) {
                     const formattedGoogleEvents: CalendarEvent[] = googleEventsData.map((event: any) => {
                         const isAllDay = !!event.start.date;
@@ -87,6 +90,7 @@ export function useEvents() {
                         return !isDuplicate;
                     });
 
+                    console.log(`useEvents: Merging ${uniqueGoogleEvents.length} unique Google events.`);
                     allEvents = [...allEvents, ...uniqueGoogleEvents];
                 }
             } catch (error) {
@@ -95,6 +99,7 @@ export function useEvents() {
                 console.log("Google Calendar fetch ignored:", error);
             }
 
+            console.log("useEvents: Total events to set:", allEvents.length);
             setEvents(allEvents);
 
         } catch (error) {
