@@ -38,7 +38,7 @@ export default function Agenda() {
     const [date, setDate] = useState(new Date());
 
     // [MODIFIED] Use the custom hook for events
-    const { events, loading, createEvent, updateEvent, deleteEvent } = useEvents();
+    const { events, loading, createEvent, updateEvent, deleteEvent, refreshEvents } = useEvents();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
@@ -88,11 +88,12 @@ export default function Agenda() {
         setIsDialogOpen(true);
     };
 
-    const handleSaveEvent = async (event: CalendarEvent) => {
+    const handleSaveEvent = async (event: CalendarEvent, addToGoogle = false) => {
         if (selectedEvent) {
             await updateEvent(event);
         } else {
-            await createEvent(event);
+            // New event, potentially add to Google
+            await createEvent(event, addToGoogle);
         }
         setIsDialogOpen(false);
     };
@@ -101,8 +102,10 @@ export default function Agenda() {
         await deleteEvent(id);
     };
 
-    const handleSync = () => {
-        toast.info("Sincronização com Google Calendar em breve...");
+    const handleSync = async () => {
+        toast.info("Sincronizando eventos...");
+        await refreshEvents(); // Re-fetches both Supabase and Google events
+        toast.success("Sincronização concluída!");
     };
 
     const eventStyleGetter = (event: CalendarEvent) => {
@@ -198,9 +201,14 @@ export default function Agenda() {
             {/* Side Widget - Day Events - Fixed width on large screens */}
             <Card className="lg:w-[320px] flex-none flex flex-col bg-card border-border shadow-sm h-full max-h-[calc(100vh-148px)]">
                 <CardHeader className="py-4 border-b border-border flex flex-row items-center justify-between">
-                    <CardTitle className="text-lg">
-                        Eventos de hoje
-                    </CardTitle>
+                    <div className="flex flex-col gap-1">
+                        <CardTitle className="text-xl font-bold text-primary">
+                            Eventos de hoje
+                        </CardTitle>
+                        <p className="text-xs font-medium text-muted-foreground capitalize">
+                            {format(new Date(), "EEEE, d 'de' MMMM", { locale: ptBR })}
+                        </p>
+                    </div>
                     <Button variant="ghost" size="icon" onClick={() => {
                         setSelectedEvent(null);
                         const start = new Date(); // Default to Now/Today
